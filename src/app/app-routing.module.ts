@@ -1,21 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeModule } from './modules/home/home.module';
-import { CourseModule } from './modules/course/course.module';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'home',
-  //   pathMatch: 'full'
-  // },
   {
     path: '',
-    loadChildren: () => HomeModule
+    loadChildren: './modules/home/home.module#HomeModule'
+    // loadChildren: () => HomeModule universal is not working with loadchildren: () =>
   },
   {
     path: 'course',
-    loadChildren: () => CourseModule
+    // loadChildren: () => CourseModule
+    loadChildren: "./modules/course/course.module#CourseModule"
   },
 ];
 

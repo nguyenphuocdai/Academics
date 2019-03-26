@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule }    from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoaderComponent } from './shared/components/loader/loader.component';
@@ -11,7 +11,8 @@ import { SafePipe } from './shared/pipes/safe.pipe';
 import { ScriptLoaderModule } from 'ngx-script-loader';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './modules/home/home.module';
-
+import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { HomeModule } from './modules/home/home.module';
     SafePipe
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'tour-of-heroes' }),
+    FormsModule,
     AppRoutingModule,
     ScriptLoaderModule,
     CoreModule,
@@ -31,4 +33,12 @@ import { HomeModule } from './modules/home/home.module';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(APP_ID) private appId: string) {
+    const platform = isPlatformBrowser(platformId) ?
+      'in the browser' : 'on the server';
+    console.log(`Running ${platform} with appId=${appId}`);
+  }
+}
